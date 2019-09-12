@@ -1,0 +1,29 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./lib",
+        "sourceMap": true,
+        "declaration": true,
+        "target": "es6",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "lib": [
+            "es5",
+            "es2015",
+            "dom"
+        ],
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "lib",
+        "**/*.spec.ts"
+    ]
+}

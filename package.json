@@ -1,0 +1,49 @@
+{
+    "name": "@reactgular/stateful",
+    "version": "1.0.0",
+    "description": "A minimal state management store for RxJS.",
+    "author": "reactgular.com",
+    "homepage": "https://github.com/reactgular/stateful.git",
+    "license": "MIT",
+    "main": "lib/stateful.js",
+    "types": "lib/stateful.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/reactgular/stateful.git"
+    },
+    "bugs": {
+        "url": "https://github.com/reactgular/stateful/issues"
+    },
+    "keywords": [
+        "javascript",
+        "typescript",
+        "rxjs",
+        "state",
+        "redux",
+        "store",
+        "library"
+    ],
+    "scripts": {
+        "test": "jest",
+        "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+        "build": "rm -fr ./lib && tsc",
+        "lint": "tslint -p tsconfig.json",
+        "prepublishOnly": "npm test && npm run lint",
+        "preversion": "npm run lint"
+    },
+    "peerDependencies": {
+        "rxjs": "^6.0.0"
+    },
+    "devDependencies": {
+        "@types/jest": "^24.0.18",
+        "coveralls": "^3.0.6",
+        "jest": "^24.9.0",
+        "ts-jest": "^24.0.2",
+        "tslint": "^5.19.0",
+        "typescript": "~3.6.2",
+        "rxjs": "~6.4.0"
+    },
+    "files": [
+        "lib/**/*"
+    ]
+}
