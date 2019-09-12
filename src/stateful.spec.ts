@@ -1,4 +1,4 @@
-import {finalize, first, skip, tap} from 'rxjs/operators';
+import {finalize, first, skip, tap, toArray} from 'rxjs/operators';
 import {Stateful} from './stateful';
 
 describe('stateful', () => {
@@ -34,6 +34,22 @@ describe('stateful', () => {
             finalize(done)
         ).subscribe(() => expect(count).toBe(1));
         state.patch({name: 'Other'});
+        state.complete();
+    });
+
+    it('should reset the state', done => {
+        const state = new Stateful({name: 'Example'});
+        state.state$.pipe(
+            toArray(),
+            finalize(() => done())
+        ).subscribe(states => {
+            expect(states.length).toBe(3);
+            expect(states[0]).toEqual({name: 'Example'});
+            expect(states[1]).toEqual({name: 'Something'});
+            expect(states[2]).toEqual({name: 'Example'});
+        });
+        state.set({name: 'Something'});
+        state.reset();
         state.complete();
     });
 
