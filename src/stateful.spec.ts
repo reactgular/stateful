@@ -53,6 +53,26 @@ describe('stateful', () => {
         state.complete();
     });
 
+    it('should reset using a different default state', done => {
+        const state = new Stateful({name: 'Example'});
+        state.state$.pipe(
+            toArray(),
+            finalize(() => done())
+        ).subscribe(states => {
+            expect(states.length).toBe(3);
+            expect(states[0]).toEqual({name: 'Example'});
+            expect(states[1]).toEqual({name: 'Something'});
+            expect(states[2]).toEqual({name: 'Other'});
+            expect(states[3]).toEqual({name: 'Something'});
+            expect(states[4]).toEqual({name: 'Other'});
+        });
+        state.set({name: 'Something'});
+        state.reset({name: 'Other'});
+        state.set({name: 'Something'});
+        state.reset();
+        state.complete();
+    });
+
     it('should select changes for a state property', done => {
         const state = new Stateful({a: 'one', b: 'two', c: 'three'});
         state.select('b').pipe(
