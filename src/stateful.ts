@@ -13,7 +13,7 @@ export class Stateful<TState extends {}> {
     /**
      * Constructor sets the initial state.
      */
-    public constructor(private readonly _defaultState: TState) {
+    public constructor(private _defaultState: TState) {
         this._state$ = new BehaviorSubject<TState>(_defaultState);
     }
 
@@ -41,7 +41,10 @@ export class Stateful<TState extends {}> {
     /**
      * Resets the state to the default value.
      */
-    public reset() {
+    public reset(defaultState?: TState) {
+        if (defaultState) {
+            this._defaultState = defaultState;
+        }
         this.set(this._defaultState);
     }
 

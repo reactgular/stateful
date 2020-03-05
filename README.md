@@ -42,7 +42,7 @@ state.select('name').subscribe(value => console.log(value)); // prints "Somethin
 - `selector<TValue>(selector: (s: TState) => TValue): Observable<TValue>`: Creates an observable that emits values produced by the selector function. 
 - `patch(state: Partial<TState>)`: Patches the current state with partial values.
 - `set(state: TState)`: Sets the current state.
-- `reset()`: Resets the state to the original state used by the constructor.
+- `reset(defaultState?: TState)`: Resets the state to the original state used by the constructor, or updates the original state with the passed argument.
 - `snapshot(): TState`: Peeks at the current internal state.
 - `complete()`: Stops emitting changes made to the state.
 
