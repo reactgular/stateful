@@ -32,6 +32,13 @@ export class Stateful<TState extends {}> {
     }
 
     /**
+     * Gets the default state used with the constructor or reset.
+     */
+    public default(): TState {
+        return this._defaultState;
+    }
+
+    /**
      * Patches the state.
      */
     public patch(state: Partial<TState>) {

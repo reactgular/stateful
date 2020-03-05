@@ -73,6 +73,13 @@ describe('stateful', () => {
         state.complete();
     });
 
+    it('should return the default state', () => {
+        const value = {name: 'Example'};
+        const state = new Stateful(value);
+        expect(state.default()).toEqual({name: 'Example'});
+        expect(state.default()).toBe(value);
+    });
+
     it('should select changes for a state property', done => {
         const state = new Stateful({a: 'one', b: 'two', c: 'three'});
         state.select('b').pipe(
