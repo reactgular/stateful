@@ -66,8 +66,12 @@ export class StorageStateful<TState extends {}> extends Stateful<TState> {
         this._serializer = config.serializer;
         this._deserializer = config.deserializer;
 
-        if (this._storage.getItem(storageKey)) {
-            this._read();
+        const item = this._storage.getItem(this.storageKey);
+        if (item) {
+            const state = this._deserializer(item);
+            if (typeof state === 'object') {
+                this.set(state);
+            }
         } else {
             this._write();
         }
@@ -81,19 +85,6 @@ export class StorageStateful<TState extends {}> extends Stateful<TState> {
             super.set(state);
         } finally {
             this._write();
-        }
-    }
-
-    /**
-     * Restores the state from storage.
-     */
-    private _read() {
-        const item = this._storage.getItem(this.storageKey);
-        if (item) {
-            const state = this._deserializer(item);
-            if (typeof state === 'object') {
-                this.set(state);
-            }
         }
     }
 

@@ -52,4 +52,12 @@ describe('StorageStateful', () => {
         const state = new StorageStateful('stateful', {name: 'Example'});
         expect(localStorage.getItem('stateful')).toBe(JSON.stringify({name: 'Example'}));
     });
+
+    it('will not use a deserializers value that is not an object', () => {
+        localStorage.setItem('stateful', JSON.stringify({name: 'One'}));
+        const state = new StorageStateful('stateful', {name: 'Example'}, {
+            deserializer: str => 'Invalid value' as any
+        });
+        expect(state.snapshot()).toEqual({name: 'Example'});
+    });
 });
