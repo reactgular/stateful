@@ -13,7 +13,7 @@ export class Stateful<TState extends {}> {
     /**
      * Constructor sets the initial state.
      */
-    public constructor(private readonly _defaultState: TState) {
+    public constructor(private _defaultState: TState) {
         this._state$ = new BehaviorSubject<TState>(_defaultState);
     }
 
@@ -32,16 +32,37 @@ export class Stateful<TState extends {}> {
     }
 
     /**
+     * Gets the default state used with the constructor or reset.
+     */
+    public default(): TState {
+        return this._defaultState;
+    }
+
+    /**
      * Patches the state.
      */
-    public patch(state: Partial<TState>) {
-        this.set({...this.snapshot(), ...state});
+    public patch(state: Partial<TState>);
+
+    /**
+     * Patches a property of the state.
+     */
+    public patch<TKey extends keyof TState>(name: TKey, value: TState[TKey]);
+
+    /**
+     * Patches the state.
+     */
+    public patch(...args: any[]) {
+        const patch = args.length === 1 ? args[0] : {[args[0]]: args[1]};
+        this.set({...this.snapshot(), ...patch});
     }
 
     /**
      * Resets the state to the default value.
      */
-    public reset() {
+    public reset(defaultState?: TState) {
+        if (defaultState) {
+            this._defaultState = defaultState;
+        }
         this.set(this._defaultState);
     }
 

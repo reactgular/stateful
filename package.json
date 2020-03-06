@@ -1,12 +1,12 @@
 {
     "name": "@reactgular/stateful",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "A minimal state management store for RxJS.",
     "author": "reactgular.com",
     "homepage": "https://github.com/reactgular/stateful.git",
     "license": "MIT",
-    "main": "lib/stateful.js",
-    "types": "lib/stateful.d.ts",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/reactgular/stateful.git"
@@ -38,10 +38,10 @@
         "@types/jest": "^24.0.18",
         "coveralls": "^3.0.6",
         "jest": "^24.9.0",
+        "rxjs": "~6.4.0",
         "ts-jest": "^24.0.2",
         "tslint": "^5.19.0",
-        "typescript": "~3.6.2",
-        "rxjs": "~6.4.0"
+        "typescript": "~3.6.2"
     },
     "files": [
         "lib/**/*"

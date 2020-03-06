@@ -37,6 +37,18 @@ describe('stateful', () => {
         state.complete();
     });
 
+    it('should patch the state with a partial object', () => {
+        const state = new Stateful({name: 'Example', address: '123 Main St'});
+        state.patch({name: 'Outside Box'});
+        expect(state.snapshot()).toEqual({name: 'Outside Box', address: '123 Main St'});
+    });
+
+    it('should patch the state with a property value', () => {
+        const state = new Stateful({name: 'Example', address: '123 Main St'});
+        state.patch('name', 'Outside Box');
+        expect(state.snapshot()).toEqual({name: 'Outside Box', address: '123 Main St'});
+    });
+
     it('should reset the state', done => {
         const state = new Stateful({name: 'Example'});
         state.state$.pipe(
@@ -51,6 +63,33 @@ describe('stateful', () => {
         state.set({name: 'Something'});
         state.reset();
         state.complete();
+    });
+
+    it('should reset using a different default state', done => {
+        const state = new Stateful({name: 'Example'});
+        state.state$.pipe(
+            toArray(),
+            finalize(() => done())
+        ).subscribe(states => {
+            expect(states.length).toBe(3);
+            expect(states[0]).toEqual({name: 'Example'});
+            expect(states[1]).toEqual({name: 'Something'});
+            expect(states[2]).toEqual({name: 'Other'});
+            expect(states[3]).toEqual({name: 'Something'});
+            expect(states[4]).toEqual({name: 'Other'});
+        });
+        state.set({name: 'Something'});
+        state.reset({name: 'Other'});
+        state.set({name: 'Something'});
+        state.reset();
+        state.complete();
+    });
+
+    it('should return the default state', () => {
+        const value = {name: 'Example'};
+        const state = new Stateful(value);
+        expect(state.default()).toEqual({name: 'Example'});
+        expect(state.default()).toBe(value);
     });
 
     it('should select changes for a state property', done => {

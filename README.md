@@ -34,17 +34,25 @@ state.patch({name: 'Something'});
 state.select('name').subscribe(value => console.log(value)); // prints "Something"
 ```
 
-## API
+# Stateful Class
+
+Usage documentation for the `Stateful<TState>` class.
+
+#### Properties
+
+- `state$`: An observable that emits all changes to the state.
 
 #### Methods
 
+- `complete()`: Stops emitting changes made to the state.
+- `default()`: Returns the default state used with the constructor or reset.
+- `patch(state: Partial<TState>)`: Patches the current state with partial values.
+- `patch<TKey extends keyof TState>(name: TKey, value: TState[TKey])`: Patches a single property on the state with a value.
+- `reset(defaultState?: TState)`: Resets the state to the original state used by the constructor, or updates the original state with the passed argument.
 - `select<TKey extends keyof TState>(name: TKey): Observable<TState[TKey]>`: Creates an observable that emits values from a property on the state object.
 - `selector<TValue>(selector: (s: TState) => TValue): Observable<TValue>`: Creates an observable that emits values produced by the selector function. 
-- `patch(state: Partial<TState>)`: Patches the current state with partial values.
 - `set(state: TState)`: Sets the current state.
-- `reset()`: Resets the state to the original state used by the constructor.
 - `snapshot(): TState`: Peeks at the current internal state.
-- `complete()`: Stops emitting changes made to the state.
 
 ## Examples
 
@@ -140,5 +148,43 @@ export class ProductComponent implements OnInit {
     public set price(price: string) {
         this.state.patch({price});    
     }
+}
+```
+
+# StorageStateful Class
+
+StorageStateful extends Stateful and offers persistence of state to a storage service like `localStorage` or `sessionStorage`.
+
+```typescript
+import {StorageStateful} from '@reactgular/stateful';
+
+interface ExampleState {name: string; count: number; }
+const state = new StorageStateful<ExampleState>('app', {name: "Example", count: 4});
+```
+
+Pass the storage `key` as the first parameter to the constructor, and the defaulat state as the second parameter. The state will
+be persisted to `localStorage` by default under that `key`. Any changes patched to the state are serialized to storage.
+
+You can configure custom serializers and storage objects using the `StorageStatefulConfig<TState extends {}>` interface as the third parameter.
+
+```typescript
+/**
+ * Configuration options for the StorageStateful class.
+ */
+export interface StorageStatefulConfig<TState extends {}> {
+    /**
+     * A deserialize function that converts a string into a state object.
+     */
+    deserializer?: (state: string) => TState;
+
+    /**
+     * A serialize function that converts a state object into a string.
+     */
+    serializer?: (state: TState) => string;
+
+    /**
+     * The storage object to use (can be localStorage or sessionStorage).
+     */
+    storage?: Storage;
 }
 ```
