@@ -46,4 +46,10 @@ describe('StorageStateful', () => {
         expect(store['stateful']).toBe(JSON.stringify({name: 'Example'}));
         expect(Object.keys(store).length).toBe(1);
     });
+
+    it('should revert to default state for invalid storage values', () => {
+        localStorage.setItem('stateful', '#!@#');
+        const state = new StorageStateful('stateful', {name: 'Example'});
+        expect(localStorage.getItem('stateful')).toBe(JSON.stringify({name: 'Example'}));
+    });
 });
