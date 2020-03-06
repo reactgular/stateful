@@ -1,6 +1,6 @@
 {
     "name": "@reactgular/stateful",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "A minimal state management store for RxJS.",
     "author": "reactgular.com",
     "homepage": "https://github.com/reactgular/stateful.git",
