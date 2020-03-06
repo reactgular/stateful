@@ -34,18 +34,25 @@ state.patch({name: 'Something'});
 state.select('name').subscribe(value => console.log(value)); // prints "Something"
 ```
 
-## API
+# Stateful Class
+
+Usage documentation for the `Stateful<TState>` class.
+
+#### Properties
+
+- `state$`: An observable that emits all changes to the state.
 
 #### Methods
 
 - `complete()`: Stops emitting changes made to the state.
 - `default()`: Returns the default state used with the constructor or reset.
+- `patch(state: Partial<TState>)`: Patches the current state with partial values.
+- `patch<TKey extends keyof TState>(name: TKey, value: TState[TKey])`: Patches a single property on the state with a value.
+- `reset(defaultState?: TState)`: Resets the state to the original state used by the constructor, or updates the original state with the passed argument.
 - `select<TKey extends keyof TState>(name: TKey): Observable<TState[TKey]>`: Creates an observable that emits values from a property on the state object.
 - `selector<TValue>(selector: (s: TState) => TValue): Observable<TValue>`: Creates an observable that emits values produced by the selector function. 
 - `set(state: TState)`: Sets the current state.
 - `snapshot(): TState`: Peeks at the current internal state.
-- `patch(state: Partial<TState>)`: Patches the current state with partial values.
-- `reset(defaultState?: TState)`: Resets the state to the original state used by the constructor, or updates the original state with the passed argument.
 
 ## Examples
 
@@ -143,3 +150,11 @@ export class ProductComponent implements OnInit {
     }
 }
 ```
+
+# StorageStateful Class
+
+StorageStateful extends Stateful and offers persistence of state to a storage service like `localStorage` or `sessionStorage`.
+
+## Methods
+
+
