@@ -41,8 +41,19 @@ export class Stateful<TState extends {}> {
     /**
      * Patches the state.
      */
-    public patch(state: Partial<TState>) {
-        this.set({...this.snapshot(), ...state});
+    public patch(state: Partial<TState>);
+
+    /**
+     * Patches a property of the state.
+     */
+    public patch<TKey extends keyof TState>(name: TKey, value: TState[TKey]);
+
+    /**
+     * Patches the state.
+     */
+    public patch(...args: any[]) {
+        const patch = args.length === 1 ? args[0] : {[args[0]]: args[1]};
+        this.set({...this.snapshot(), ...patch});
     }
 
     /**

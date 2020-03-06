@@ -37,6 +37,18 @@ describe('stateful', () => {
         state.complete();
     });
 
+    it('should patch the state with a partial object', () => {
+        const state = new Stateful({name: 'Example', address: '123 Main St'});
+        state.patch({name: 'Outside Box'});
+        expect(state.snapshot()).toEqual({name: 'Outside Box', address: '123 Main St'});
+    });
+
+    it('should patch the state with a property value', () => {
+        const state = new Stateful({name: 'Example', address: '123 Main St'});
+        state.patch('name', 'Outside Box');
+        expect(state.snapshot()).toEqual({name: 'Outside Box', address: '123 Main St'});
+    });
+
     it('should reset the state', done => {
         const state = new Stateful({name: 'Example'});
         state.state$.pipe(
