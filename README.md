@@ -155,6 +155,36 @@ export class ProductComponent implements OnInit {
 
 StorageStateful extends Stateful and offers persistence of state to a storage service like `localStorage` or `sessionStorage`.
 
-## Methods
+```typescript
+import {StorageStateful} from '@reactgular/stateful';
 
+interface ExampleState {name: string; count: number; }
+const state = new StorageStateful<ExampleState>('app', {name: "Example", count: 4});
+```
 
+Pass the storage `key` as the first parameter to the constructor, and the defaulat state as the second parameter. The state will
+be persisted to `localStorage` by default under that `key`. Any changes patched to the state are serialized to storage.
+
+You can configure custom serializers and storage objects using the `StorageStatefulConfig<TState extends {}>` interface as the third parameter.
+
+```typescript
+/**
+ * Configuration options for the StorageStateful class.
+ */
+export interface StorageStatefulConfig<TState extends {}> {
+    /**
+     * A deserialize function that converts a string into a state object.
+     */
+    deserializer?: (state: string) => TState;
+
+    /**
+     * A serialize function that converts a state object into a string.
+     */
+    serializer?: (state: TState) => string;
+
+    /**
+     * The storage object to use (can be localStorage or sessionStorage).
+     */
+    storage?: Storage;
+}
+```
