@@ -162,7 +162,7 @@ interface ExampleState {name: string; count: number; }
 const state = new StorageStateful<ExampleState>('app', {name: "Example", count: 4});
 ```
 
-Pass the storage `key` as the first parameter to the constructor, and the defaulat state as the second parameter. The state will
+Pass the storage `key` as the first parameter to the constructor, and the default state as the second parameter. The state will
 be persisted to `localStorage` by default under that `key`. Any changes patched to the state are serialized to storage.
 
 You can configure custom serializers and storage objects using the `StorageStatefulConfig<TState extends {}>` interface as the third parameter.
